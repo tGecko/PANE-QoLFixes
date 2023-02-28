@@ -27,5 +27,8 @@
     <Reference Include="ConfigurationManager">
       <HintPath>E:\SteamLibrary\steamapps\common\Pharaoh A New Era 1.1 dev\BepInEx\plugins\ConfigurationManager.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>E:\SteamLibrary\steamapps\common\Pharaoh A New Era 1.1 dev\Pharaoh_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
