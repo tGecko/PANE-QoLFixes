@@ -23,12 +23,14 @@ namespace QoLFixes
             logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
 
-            conf_noDebtDefeat = Config.Bind("Settings", "NoDebtDefeat", false, "Disabling defeat at -5000 deben");
+            conf_noDebtDefeat = Config.Bind("Settings", "NoDebtDefeat", false, "Disabling defeat at -5000 deben. THIS SETTING NEEDS A RESTART OF THE GAME");
             conf_maxZoom = Config.Bind("General", "MaxZoom", 15f, new ConfigDescription("Set max zoom value. Default is 15.", new AcceptableValueRange<float>(5, 60)));
             conf_reverseSaveOrder = Config.Bind("General", "ReverseSaveOrder", true, "Reverse the order of save files in Load-menu");
+
             Harmony.CreateAndPatchAll(typeof(QoLFixes));
             logger.LogInfo($"QoLFixes applied!");
         }
+
 
         // patch FileManager.ScanForSaves to reverse save order
         [HarmonyPatch(typeof(FileManager), "ScanForSaves")]
@@ -37,6 +39,7 @@ namespace QoLFixes
         {
             if (conf_reverseSaveOrder.Value)
             {
+                logger.LogInfo("Patching save file order");
                 if (!FileManager.IsFamilyValidOrTryToFix())
                 {
                     __result = new string[0];
@@ -50,13 +53,16 @@ namespace QoLFixes
             return true;
         }
 
+
         // patch CameraManager.GetZoomMax to change maxZoom
         [HarmonyPatch(typeof(CameraManager), "GetZoomMax")]
         [HarmonyPostfix]
         static void CameraManagerGetZoomMaxPostfixPatch(ref float __result)
         {
+            logger.LogInfo($"patching GetZoomMax to {conf_maxZoom.Value.ToString()}");
             __result = conf_maxZoom.Value;
         }
+
 
         // patch MapGameplay.ChangeTreasury, which would show the defeat screen
 
@@ -66,21 +72,18 @@ namespace QoLFixes
         {
             if (conf_noDebtDefeat.Value)
             {
-                logger.LogInfo("changeTreasury: noDebtDefeat seems to be true");
                 return new CodeMatcher(instructions)
                   .MatchForward(false,
                       new CodeMatch(OpCodes.Ldc_I4, -5000))
                   .SetOperandAndAdvance(-65535)
                   .InstructionEnumeration();
             }
-            logger.LogInfo("changeTreasury: noDebtDefeat seems to be false");
 
             return instructions;
         }
 
 
         // patch MapGamePlay.IsUnderDebenBuildingLimit, which would prevent placing buildings 
-
 
         [HarmonyPatch(typeof(MapGameplay))]
         [HarmonyPatch("IsUnderDebenBuildingLimit", MethodType.Getter)]
@@ -90,7 +93,6 @@ namespace QoLFixes
 
             if (conf_noDebtDefeat.Value)
             {
-                logger.LogInfo("IsUnderDebenBuildingLimit: noDebtDefeat seems to be true");
 
                 return new CodeMatcher(instructions)
                 .MatchForward(false,
@@ -98,7 +100,6 @@ namespace QoLFixes
                 .SetOperandAndAdvance(-65535)
                 .InstructionEnumeration();
             }
-            logger.LogInfo("IsUnderDebenBuildingLimit: noDebtDefeat seems to be false");
 
             return instructions;
 
