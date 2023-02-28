@@ -1,4 +1,4 @@
-# PANE-QoLFixes Pharaoh: A New Era quality of life fixes
+Pharaoh: A New Era quality of life fixes
 
 Interested in modding? Join [our discord!](https://discord.gg/kGnAesaG)
 
