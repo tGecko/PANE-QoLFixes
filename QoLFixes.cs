@@ -33,7 +33,7 @@ namespace QoLFixes
 
             // General settings
             conf_noDebtDefeat = Config.Bind("General", "NoDebtDefeat", false, "Disabling defeat at -5000 deben. THIS SETTING NEEDS A RESTART OF THE GAME");
-            conf_reverseSaveOrder = Config.Bind("Settings", "ReverseSaveOrder", true, "Reverse the order of save files in Load-menu");
+            conf_reverseSaveOrder = Config.Bind("General", "ReverseSaveOrder", true, "Reverse the order of save files in Load-menu");
             conf_maxSpeed = Config.Bind("General", "MaxSpeed", 5, new ConfigDescription("Set the speed of the fastest speed setting.", new AcceptableValueRange<int>(5, 50)));
             conf_debugMenu = Config.Bind("General", "DebugMenu", false, "Enable the debug menu. NEED TO RELOAD SAVE FILE");
 
@@ -43,7 +43,7 @@ namespace QoLFixes
             conf_maxZoom = Config.Bind("Camera", "MaxZoom", 8.5f, new ConfigDescription("Set max zoom value.", new AcceptableValueRange<float>(5, 60)));
 
             // Notification settings
-            conf_DisableFullscreenNotifications = Config.Bind("Notifications","DisableFullscreenNotifiactions", false, "Disable fullscreen notifications");
+            conf_DisableFullscreenNotifications = Config.Bind("Notifications","DisableFullscreenNotifications", false, "Disable fullscreen notifications");
             conf_DisableFullscreenNotificationsHighSpeed = Config.Bind("Notifications", "DisableFullscreenNotificationsHighSpeed", false, "Disable fullscreen notifications when speed is 5 or higher");
             conf_DisableNotificationsCompletely = Config.Bind("Notifications", "DisableNotificationsCompletely", false, "Disable notifications completely");
             conf_DisableRoadMissingNotification = Config.Bind("Notifications", "DisableRoadMissingNotification", false, "Disable No Road Access notifications");
